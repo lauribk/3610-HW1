@@ -14,14 +14,18 @@ def handle_client(client_socket, client_address):
     client_socket.send(f"Welcome to the chat, {username}!".encode('utf-8'))
 
     while True:
-        #receive the message
-        message = client_socket.recv(1024).decode("utf-8")
-        #check to see if it is a special menu option
-        if message == "/quit":
+        try:
+            #receive the message
+            message = client_socket.recv(1024).decode("utf-8")
+            #check to see if it is a special menu option
+            if message == "/quit":
+                break
+            #elif message == "/private":
+            elif message:
+                broadcast(f"[{username}]: {message}", client_socket)
+        # deal with disconnection
+        except:
             break
-        #elif message == "/private":
-        elif message:
-            broadcast(f"[{username}]: {message}", client_socket)
     # deal with disconnection
     remove_client(client_socket)
     print(f"[{username} disconnected] Total clients: len(clients)")
