@@ -10,8 +10,8 @@ def handle_client(client_socket, client_address):
     username = client_socket.recv(1024).decode("utf-8")
 
     #changed format to match example output
-    print(f"[{username} connected] Total clients: len(clients)")
-    client_socket.send("Welcome to the chat, {username}!".encode('utf-8'))
+    print(f"[{username} connected] Total clients: {len(clients)}")
+    client_socket.send(f"Welcome to the chat, {username}!".encode('utf-8'))
 
     while True:
         #receive the message
@@ -21,7 +21,7 @@ def handle_client(client_socket, client_address):
             break
         #elif message == "/private":
         elif message:
-            broadcast(f"[{username}]: message", client_socket)
+            broadcast(f"[{username}]: {message}", client_socket)
     # deal with disconnection
     remove_client(client_socket)
     print(f"[{username} disconnected] Total clients: len(clients)")
@@ -29,6 +29,8 @@ def handle_client(client_socket, client_address):
 
 # Function to broadcast messages to all clients
 def broadcast(message, sender_socket):
+    # also print messages to server terminal
+    print(message)
 
     #sending to all clients
     for client in clients:

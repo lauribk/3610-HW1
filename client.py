@@ -32,7 +32,7 @@ def start_client(server_ip, server_port):
     threading.Thread(target = receive_messages , args = (client_socket,)).start()
 
     # Main thread sends messages
-    #handle sending name
+    client_socket.send(username.encode('utf-8'))
     send_messages(client_socket)
 
 if __name__ == "__main__":
