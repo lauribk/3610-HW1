@@ -6,11 +6,24 @@ clients = []
 
 # Function to handle communication with each client
 def handle_client(client_socket, client_address):
-    print(f"[NEW CONNECTION] {client_address} connected.")
-    client_socket.send("Welcome to the chat server!\n".encode('utf-8'))
+    #receive username
+    username = client_socket.recv(1024).decode("utf-8")
+
+    #changed format to match example output
+    print(f"[{username} connected] Total clients: len(clients)")
+    client_socket.send("Welcome to the chat, {username}!".encode('utf-8'))
 
     while True:
-        pass
+        #receive the message
+        message = client_socket.recv(1024).decode("utf-8")
+        #check to see if it is a special menu option
+        if message == "/quit":
+            break
+        #elif message == "/private":
+        elif message:
+            broadcast(f"[{username}]: message", client_socket)
+    remove_client(client_socket)
+        
 
 # Function to broadcast messages to all clients
 def broadcast(message, sender_socket):
