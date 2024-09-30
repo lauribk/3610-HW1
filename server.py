@@ -28,6 +28,7 @@ def start_server(server_ip, server_port):
     server_socket.bind((server_ip, server_port))
 
     #Handle multiple clients simultaneously
+    server_socket.listen(5)
 
     print(f"[SERVER STARTED] Listening on {server_ip}:{server_port}")
 
@@ -36,8 +37,9 @@ def start_server(server_ip, server_port):
         clients.append(client_socket)
 
         #Start a new thread to handle the client
+        threading.ClientThread(target = handle_client, args=(client_socket, client_address)).start()
 
 if __name__ == "__main__":
     SERVER_IP = "127.0.0.1"
-    SERVER_PORT = 8080
+    SERVER_PORT = 12345
     start_server(SERVER_IP, SERVER_PORT)
