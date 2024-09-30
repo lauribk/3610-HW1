@@ -34,11 +34,13 @@ def broadcast(message, sender_socket):
 
     #sending to all clients
     for client in clients:
-        try:
-            client.send(message.encode('utf-8'))
-        #in case the client has disconnected due to a server connection error
-        except:
-            remove_client(client)
+        #do not send to yourself
+        if client is not sender_socket:
+            try:
+                client.send(message.encode('utf-8'))
+            #in case the client has disconnected due to a server connection error
+            except:
+                remove_client(client)
 
 # Fucntion to remove a client from the list and close the connection
 def remove_client(client_socket):
