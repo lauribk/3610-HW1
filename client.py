@@ -20,6 +20,7 @@ def send_messages(client_socket):
                 break
             client_socket.send(message.encode('utf-8'))
     print("You have disconnected")
+    client_socket.close()
 
 def start_client(server_ip, server_port):
     #Create a TCP socket: client_socket
