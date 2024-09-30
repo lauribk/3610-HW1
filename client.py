@@ -31,7 +31,10 @@ def start_client(server_ip, server_port):
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     #connecting
-    client_socket.connect((server_ip, server_port))
+    try:
+        client_socket.connect((server_ip, server_port))
+    except:
+        print("There is no open server with that IP and port.")
 
     #Start a thread to listen for messages from the server
     threading.Thread(target = receive_messages , args = (client_socket,)).start()
@@ -53,5 +56,9 @@ if __name__ == "__main__":
     print("Enter the server port number:")
     SERVER_PORT = int(input())
 
-    start_client(SERVER_IP, SERVER_PORT)
+    try:
+        start_client(SERVER_IP, SERVER_PORT)
+
+    except:
+        print("Invalid Server IP and port number.")
 
