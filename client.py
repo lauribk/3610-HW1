@@ -51,7 +51,7 @@ if __name__ == "__main__":
     SERVER_IP = input()
 
     print("Enter the server port number")
-    SERVER_PORT = 12345
+    SERVER_PORT = input()
 
     start_client(SERVER_IP, SERVER_PORT)
 
