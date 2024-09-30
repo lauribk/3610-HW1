@@ -19,7 +19,6 @@ def start_client(server_ip, server_port):
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     #connecting
-    server_address = (server_ip, server_port)
     client_socket.connect((server_ip, server_port))
 
     #Start a thread to listen for messages from the server
