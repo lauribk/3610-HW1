@@ -11,8 +11,11 @@ def receive_messages(client_socket):
 def send_messages(client_socket):
     while True:
         message = input()
-        #print all communications
-        break
+        if message:
+            if message == "/quit":
+                break
+            client_socket.send(message.encode('utf-8'))
+    print("You have disconnected")
 
 def start_client(server_ip, server_port):
     #Create a TCP socket: client_socket
