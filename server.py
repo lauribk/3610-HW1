@@ -4,11 +4,14 @@ import threading
 # Global list to keep track of connected clients
 clients = []
 
+#dictionary to keep track of socket with their usernames for private message feature
+clientNames = {}
+
 # Function to handle communication with each client
 def handle_client(client_socket, client_address):
     #receive username
     username = client_socket.recv(1024).decode("utf-8")
-
+    clientNames[username] = client_socket
     #changed format to match example output
         #prints to server only
     print(f"[{username} connected] Total clients: {len(clients)}")
@@ -24,7 +27,17 @@ def handle_client(client_socket, client_address):
             #check to see if it is a special menu option
             if message == "/quit":
                 break
-            #elif message == "/private":
+            elif message.startswith("/private"):
+                #split and store message and recipient information - it must follow the given format from the menu
+                recipient = message.split(' ')[1]
+                priv_message = ' '.join(message.split(' ')[2:])
+
+                #check to make sure the recipient is online
+                if clientNames[recipient] in clients:
+                    clientNames[recipient].send(f"[Private] {username}: {priv_message}".encode('utf-8'))
+                else:
+                    client_socket.send(f"{recipient} is not online.".encode('utf-8'))
+                continue
             elif message:
                 broadcast(f"[{username}]: {message}", client_socket)
         # deal with disconnection
@@ -57,6 +70,9 @@ def remove_client(client_socket):
         #closing the socket and removing them from the client list
         client_socket.close()
         clients.remove(client_socket)
+        #dealing with new dictionary
+        if client_socket in clientNames:
+            del clientNames[client_socket]
 
 def start_server(server_ip, server_port):
     # Create a TCP socket

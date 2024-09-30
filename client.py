@@ -17,6 +17,11 @@ def receive_messages(client_socket):
 
 # Function to send messages to the server
 def send_messages(client_socket):
+    # menu for new users
+    print("Type anything to chat.")
+    print("Type '/private <username> <message>' to whisper.")
+    print("Type '/quit' to exit.")
+
     while True:
         message = input()
         if message:
