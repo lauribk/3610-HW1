@@ -47,11 +47,11 @@ if __name__ == "__main__":
     print("Enter your username:")
     username = input()
 
-    print("Enter the server IP")
-    SERVER_IP = input()
+    print("Enter the server IP:")
+    SERVER_IP = str(input())
 
-    print("Enter the server port number")
-    SERVER_PORT = input()
+    print("Enter the server port number:")
+    SERVER_PORT = int(input())
 
     start_client(SERVER_IP, SERVER_PORT)
 
