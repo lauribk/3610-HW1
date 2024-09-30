@@ -23,6 +23,7 @@ def handle_client(client_socket, client_address):
         elif message:
             broadcast(f"[{username}]: message", client_socket)
     remove_client(client_socket)
+    print(f"[{username} disconnected] Total clients: len(clients)")
         
 
 # Function to broadcast messages to all clients
@@ -33,7 +34,8 @@ def broadcast(message, sender_socket):
 # Fucntion to remove a client from the list and close the connection
 def remove_client(client_socket):
     if client_socket in clients:
-        pass
+        client_socket.close()
+        clients.remove(client_socket)
 
 def start_server(server_ip, server_port):
     # Create a TCP socket
