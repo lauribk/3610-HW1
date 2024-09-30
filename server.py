@@ -22,18 +22,26 @@ def handle_client(client_socket, client_address):
         #elif message == "/private":
         elif message:
             broadcast(f"[{username}]: message", client_socket)
+    # deal with disconnection
     remove_client(client_socket)
     print(f"[{username} disconnected] Total clients: len(clients)")
         
 
 # Function to broadcast messages to all clients
 def broadcast(message, sender_socket):
+
+    #sending to all clients
     for client in clients:
-        pass
+        try:
+            client.send(message.encode('utf-8'))
+        #in case the client has disconnected due to a server connection error
+        except:
+            remove_client(client)
 
 # Fucntion to remove a client from the list and close the connection
 def remove_client(client_socket):
     if client_socket in clients:
+        #closing the socket and removing them from the client list
         client_socket.close()
         clients.remove(client_socket)
 
