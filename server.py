@@ -37,7 +37,7 @@ def start_server(server_ip, server_port):
         clients.append(client_socket)
 
         #Start a new thread to handle the client
-        threading.ClientThread(target = handle_client, args=(client_socket, client_address)).start()
+        threading.Thread(target = handle_client, args=(client_socket, client_address)).start()
 
 if __name__ == "__main__":
     SERVER_IP = "127.0.0.1"
