@@ -37,8 +37,9 @@ def handle_client(client_socket, client_address):
 
 # Function to broadcast messages to all clients
 def broadcast(message, sender_socket):
-    # also print messages to server terminal
-    print(message)
+    # also print messages to server terminal, but only messages from clients (with the : to tell it is from a client)
+    if ":" in message:
+        print(message)
 
     #sending to all clients
     for client in clients:
