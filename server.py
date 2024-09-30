@@ -10,8 +10,12 @@ def handle_client(client_socket, client_address):
     username = client_socket.recv(1024).decode("utf-8")
 
     #changed format to match example output
+        #prints to server only
     print(f"[{username} connected] Total clients: {len(clients)}")
+        #prints welcome message to the client that just joined
     client_socket.send(f"Welcome to the chat, {username}!".encode('utf-8'))
+        #prints to everyone
+    broadcast(f"{username} has joined the chat!", client_socket)
 
     while True:
         try:
@@ -28,7 +32,7 @@ def handle_client(client_socket, client_address):
             break
     # deal with disconnection
     remove_client(client_socket)
-    print(f"[{username} disconnected] Total clients: len(clients)")
+    print(f"[{username} disconnected] Total clients: {len(clients)}")
         
 
 # Function to broadcast messages to all clients
