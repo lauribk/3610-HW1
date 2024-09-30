@@ -4,12 +4,16 @@ import threading
 # Function to receive messages from the server
 def receive_messages(client_socket):
     while True:
-        received_message = client_socket.recv(1024).decode('utf-8')
-        if received_message:
-            print(received_message)
-        else:
+        try:
+            received_message = client_socket.recv(1024).decode('utf-8')
+            if received_message:
+                print(received_message)
+            else:
+                break
+        except:
             break
     print("A server or connection error occured.")
+    client_socket.close()
 
 # Function to send messages to the server
 def send_messages(client_socket):
