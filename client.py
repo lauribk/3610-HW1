@@ -5,8 +5,8 @@ import threading
 def receive_messages(client_socket):
     while True:
         received_message = client_socket.recv(1024).decode('utf-8')
-        if message:
-            print(message)
+        if received_message:
+            print(received_message)
         else:
             break
     print("A server or connection error occured.")
